@@ -1,17 +1,18 @@
 # Start from alpine image that is smaller but no fancy tools
-FROM alpine:3.19
+FROM ubuntu:22.04
+
+# Update the image and install curl
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
+
 
 # Use /usr/src/app as our workdir. The following instructions will be executed in this location.
 WORKDIR /usr/src/app
 
-# Copy the hello.sh file from this directory to /usr/src/app/ creating /usr/src/app/hello.sh
-COPY hello.sh .
+# Copy the script.sh
+COPY script.sh .
 
 # Alternatively, if we skipped chmod earlier, we can add execution permissions during the build.
-# RUN chmod +x hello.sh
-
-# Execute a command with `/bin/sh -c` prefix.
-RUN touch additional.txt
+RUN chmod +x script.sh
 
 # When running docker run the command will be ./hello.sh
-CMD ./hello.sh
+CMD ./script.sh

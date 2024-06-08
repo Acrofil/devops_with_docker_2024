@@ -144,3 +144,61 @@ You found the correct password. Secret message is:
 "This is the secret message"
 
 ```
+#### Exercise 1.7
+We can improve our previous solutions now that we know how to create and build a Dockerfile.
+Create a new file script.sh on your local machine with the following contents:
+
+```bash
+while true
+do
+  echo "Input website:"
+  read website; echo "Searching.."
+  sleep 1; curl http://$website
+done
+```
+
+Create a Dockerfile for a new image that starts from ubuntu:22.04 and add instructions to install curl into that image. 
+Then add instructions to copy the script file into that image and finally set it to run on container start using CMD.
+After you have filled the Dockerfile, build the image with the name "curler".
+
+If you are getting permission denied, use chmod to give permission to run the script.
+The following should now work:
+
+```bash
+$ docker run -it curler
+
+  Input website:
+  helsinki.fi
+  Searching..
+  <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+  <html><head>
+  <title>301 Moved Permanently</title>
+  </head><body>
+  <h1>Moved Permanently</h1>
+  <p>The document has moved <a href="https://www.helsinki.fi/">here</a>.</p>
+  </body></html>
+```
+
+Remember that RUN can be used to execute commands while building the image!
+Submit the Dockerfile.
+
+#### Dockerfile for exercise 1.7
+```dockerfile
+# Start from ubuntu 22.04
+FROM ubuntu:22.04
+
+# Update/upgrade the image and install curl
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
+
+# Use /usr/src/app as our workdir. The following instructions will be executed in this location.
+WORKDIR /usr/src/app
+
+# Copy the script.sh
+COPY script.sh .
+
+# Alternatively, if we skipped chmod earlier, we can add execution permissions during the build.
+RUN chmod +x script.sh
+
+# When running docker run the command will be ./hello.sh
+CMD ./script.sh
+```
