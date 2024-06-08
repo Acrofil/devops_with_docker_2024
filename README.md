@@ -263,3 +263,21 @@ Starting log output
 Wrote text to /usr/src/app/text.log
 Wrote text to /usr/src/app/text.log
 ```
+
+#### Exercise 1.10
+In this exercise, we won't create a new Dockerfile.
+The image devopsdockeruh/simple-web-service will start a web service in port 8080 when given the argument "server". 
+In Exercise 1.8 you already did an image that can be used to run the web service without any argument.
+Use now the -p flag to access the contents with your browser. 
+The output to your browser should be something like: { message: "You connected to the following path: ...
+Submit your used commands for this exercise.
+
+```bash
+docker run -it -p 8080:8080 --name port-mapping devopsdockeruh/simple-web-service server
+```
+
+```json
+{"message":"You connected to the following path: /"
+"path":"/"}
+
+```
