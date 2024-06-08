@@ -202,3 +202,46 @@ RUN chmod +x script.sh
 # When running docker run the command will be ./hello.sh
 CMD ./script.sh
 ```
+
+#### Exercise 1.8
+By default our devopsdockeruh/simple-web-service:alpine doesn't have a CMD. Instead, it uses ENTRYPOINT to declare which application is run.
+We'll talk more about ENTRYPOINT in the next section, but you already know that the last argument in docker run can be used to give a command or an argument.
+As you might've noticed it doesn't start the web service even though the name is "simple-web-service". A suitable argument is needed to start the server!
+Try docker run devopsdockeruh/simple-web-service:alpine hello. The application reads the argument "hello" but will inform that hello isn't accepted.
+In this exercise create a Dockerfile and use FROM and CMD to create a brand new image that automatically runs server.
+The Docker documentation CMD says a bit indirectly that if a image has ENTRYPOINT defined, CMD is used to define it the default arguments.
+Tag the new image as "web-server"
+Return the Dockerfile and the command you used to run the container.
+Running the built "web-server" image should look like this:
+
+```bash
+$ docker run web-server
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+- using env:   export GIN_MODE=release
+- using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /*path                    --> server.Start.func1 (3 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+```
+
+#### Exercise 1.7 Dockerfile and output
+```dockerfile
+FROM devopsdockeruh/simple-web-service:alpine
+CMD server
+```
+
+```bash
+docker build . -t web-server
+docker run web-server
+
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /*path                    --> server.Start.func1 (3 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+```
