@@ -1,9 +1,9 @@
-# Start from alpine image that is smaller but no fancy tools
+# Start from ubuntu 22.04
 FROM ubuntu:22.04
 
-# Update the image and install curl
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
-
+# Update/upgrade the image and install curl
+RUN apt update
+RUN apt-get install -y curl
 
 # Use /usr/src/app as our workdir. The following instructions will be executed in this location.
 WORKDIR /usr/src/app
@@ -15,4 +15,4 @@ COPY script.sh .
 RUN chmod +x script.sh
 
 # When running docker run the command will be ./hello.sh
-CMD ./script.sh
+ENTRYPOINT ["./script.sh"]

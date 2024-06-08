@@ -226,7 +226,7 @@ $ docker run web-server
 [GIN-debug] Listening and serving HTTP on :8080
 ```
 
-#### Exercise 1.7 Dockerfile and output
+#### Exercise 1.8 Dockerfile and output
 ```dockerfile
 FROM devopsdockeruh/simple-web-service:alpine
 CMD server
@@ -244,4 +244,22 @@ docker run web-server
 
 [GIN-debug] GET    /*path                    --> server.Start.func1 (3 handlers)
 [GIN-debug] Listening and serving HTTP on :8080
+```
+
+#### Exercise 1.9
+In this exercise we won't create a new Dockerfile.
+Image devopsdockeruh/simple-web-service creates a timestamp every two seconds to /usr/src/app/text.log when it's not given a command. 
+Start the container with a bind mount so that the logs are created into your filesystem.
+Submit the command you used to complete the exercise.
+
+```bash
+touch log.txt
+docker run -v "$(pwd)/log.txt:/usr/src/app/text.log" devopsdockeruh/simple-web-service
+```
+
+#### Output
+```bash
+Starting log output
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
 ```
